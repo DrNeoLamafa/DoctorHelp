@@ -1,0 +1,20 @@
+.search {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 16px;
+    line-height: 1;
+    background: #ddd;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: normal;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  
+ 
+  .autocomplete-input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }

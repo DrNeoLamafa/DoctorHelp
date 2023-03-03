@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load  static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HelpDoctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    
+    <center><a class="nav-link" href="http://127.0.0.1:8000/"><h1>Help <img src={% static 'img.jpg' %} width="100" height="200"> Doctor</h1> </a></center>
+    
+        <div class="container mt-2 pt-6 col-8">
+
+            <div class="row">
+                
+                <div class="col-6 g-0 p-0">
+                    
+                    <div id="autocomplete" class="autocomplete">
+                        <input id="input" class="autocomplete-input" />
+                        <ul class="autocomplete-result-list"></ul>
+                        
+                    </div>
+                    <input type="hidden" name="value_id" id="value_id">
+                    
+                </div>
+                <div class="col-2 g-0">
+                    <button id="search" class="search" onclick="searchButton()">Поиск</button>    
+                </div>
+                <div class="col-4 g-0">
+                {% load crispy_forms_tags %}
+                {{searchform|crispy}}
+                
+                </div>
+                
+            </div>
+    
+            {%block content%}
+            <div class="row mt-5">
+                <h3><center>Приложение для поиска лекарств</center></h3>
+                <p1>Чтобы осуществить поиск необходимых лекарств, настройте поиск, выбрав один из типов поиска - по названию лекарства, по составу или по диагнозу. 
+                Затем начните ввод текста до тех пор, пока в списке подказок не отобразится нужный результат. Затем выберете его из списка мышкой, либо нажатием стрелок вверх/вниз и клавиши enter
+                    
+                </p1>
+            </div>
+            {% endblock %}
+        
+        </div>
+    
+    <script>
+        
+        new Autocomplete('#autocomplete', {
+            search : input => {
+                
+                var type = document.getElementById("id_searchType").value;
+                const url = `/search/?search=${input}&type=${type}`
+                return new Promise(resolve =>{
+                    var word = input.split(' ')
+                    
+                   
+                    if (word.length > 1 & word[word.length - 1] != "")
+                    {
+                            word.splice(-1, 1)
+                            fetch(url).then(response => response.json()).then(data => { console.log(data) 
+                            resolve(
+                            data.data.map(item => word.join(" ") + " " + item))})
+                            
+                    }
+                    else if (word[word.length - 1] != "") {
+                        
+                        fetch(url).then(response => response.json()).then(data => {resolve(data.data)})
+                    }
+                })         
+                
+            },
+            
+            onSubmit : result => {
+                
+                var type = document.getElementById("id_searchType").value;
+                    
+               
+            },
+            
+            submitOnEnter: true,
+            getResultValue: result => result.replaceAll("_", " "),
+        })
+        
+            
+        function changeType() {
+            document.getElementById("input").value = "";
+        }
+        function searchButton() {
+            
+            var input = document.getElementById("input").value;
+            var type = document.getElementById("id_searchType").value;
+            const url = `/result/?search=${input}&type=${type}`;
+            if (input != '') {
+                window.open(url, "_self")
+            }
+            
+        }
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>
