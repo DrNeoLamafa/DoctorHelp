@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+   
+   {%block search%}
+   <div class="container mt-2 pt-6 col-lg-6">
+   
+   <ul class="nav nav-pills nav-fill mb-3" id="ex1" role="tablist">
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{%url 'user_app:login'%}">Авторизация</a>
+      </li>
+    
+    
+      <li class="nav-item">
+        <a class="nav-link active" href="{%url 'user_app:signup'%}">Регистрация</a>
+      </li>
+    
+</ul>
+
+
+
+    
+        <form method="POST">
+            
+           
+            {% csrf_token %}
+            {{form.email.errors}}
+            <div data-mdb-input-init class="form-outline mb-4">
+                
+                {{form.email}}
+                <label class="form-label" for="registerEmail">Email</label>
+            
+            </div>
+            {{form.password1.errors}}
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                
+                {{form.password1}}
+                <label class="form-label">Пароль</label>
+            </div>
+            {{form.password2.errors}}
+            <div data-mdb-input-init class="form-outline mb-4">
+                
+                {{form.password2}}
+                <label class="form-label">Повторите пароль</label>
+            </div>
+        
+        <button type="submit" data-mdb-ripple-init class="btn btn-primary btn-block mb-3" name='sign_up'>Регистрация</button>
+        </form>
+    </div>
+    {%endblock search%}
+
+    {%block content%}
+    {%endblock content%}

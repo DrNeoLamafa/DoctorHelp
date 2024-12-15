@@ -1,15 +1,22 @@
 from functools import reduce
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from .forms import *
 from .models import *
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    searchform = SearchForm()
-    return render(request, 'main.html', {'searchform': searchform})
+    if request.user.is_authenticated:
+
+        searchform = SearchForm()
+        return render(request, 'main.html', {'searchform': searchform})
+    else:
+        return redirect('/user/login/')
+    
 #поиск аналогов
+@login_required()
 def result(request):
 
     def findAnalogue(vectorSeach, type):

@@ -1,0 +1,63 @@
+
+{% extends "main.html" %}
+{%block search%}
+{%endblock search%}
+{%block content%}
+{% load crispy_forms_tags %}
+<div class="row justify-content-center mb-2">
+  <div class="col-1 ps-1">
+    <a class="btn btn-primary" href="{% url 'pills_app:index' %}" role="button">Главная</a>
+    </div>
+  
+  <div class="col-1">
+  <button id="print" type="submit" class="btn btn-primary">Печать</button>
+  </div>
+</div>
+<div id='toPrint'>
+  
+  <form id="printForm" method="POST" target="_blank">  
+    <div class="row justify-content-center mb-2">
+      <div class="col-2">
+        {{datePeople.patient}}
+        {{datePeople.birthday}}
+        
+      </div>
+      
+      <div class="col-2">
+        {{datePeople.doctor}}
+      </div>
+    </div>
+    {% csrf_token %}
+    {% for form in formList%}
+    
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2">
+        {{form.pillsName}}
+        
+      </div>
+      <div class="col-4">
+        {{form.recipe}}
+        
+        
+      </div>
+      <div class="col-1">
+        <a href="{% url "pillslist:pills_remove" form.pillsName.value %}" <button type="button" class="btn-close" value="{{item}}" aria-label="Close"></button></a>
+      </div>
+    
+
+</div>
+        {%endfor%} 
+      </form>
+      
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <script>
+          $('#print').click(function(){
+            $('#printForm').submit()
+        });
+       
+        </script>
+       
+{% endblock content%}
