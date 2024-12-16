@@ -5,3 +5,4 @@ migrations
 .env
 db.json
 .venv
+pillsdmp.json
