@@ -52,7 +52,10 @@
                     <a class="btn btn-primary" href="{% url 'pillslist:pills_detail' %}" role="button">Список</a>
                 </div>
                 <div class="col-1 g-0">
-                <a class="btn btn-primary" href="{% url 'user_app:logout' %}" role="button">Выход</a>
+                    <form method="post" action="{% url 'user_app:logout' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="sumbit">Выход</button>
+                    </form>
                 </div>
                 
                 
